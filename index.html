@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print Struk - Aplikasi Cetak Struk Digital</title>
+    <meta name="description" content="Aplikasi cetak struk digital untuk berbagai keperluan pembayaran dan transaksi">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+    </div>
+
+    <!-- App Container -->
+    <div id="app">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="loading-screen">
+            <div class="loader">
+                <div class="loader-ring"></div>
+                <i class="fas fa-receipt loader-icon"></i>
+            </div>
+            <p class="loader-text">Memuat Aplikasi...</p>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login-page" class="page" style="display:none;">
+            <div class="login-container glass-card">
+                <div class="login-header">
+                    <div class="login-logo">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <h1>Print Struk</h1>
+                    <p class="login-subtitle">Aplikasi Cetak Struk Digital</p>
+                </div>
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="login-email"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="login-email" placeholder="admin@strukapp.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password"><i class="fas fa-lock"></i> Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="login-password" placeholder="Masukkan password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword()">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full" id="login-btn">
+                        <i class="fas fa-sign-in-alt"></i> Masuk
+                    </button>
+                </form>
+                <div class="login-footer">
+                    <a href="#" id="forgot-password-link" onclick="showResetPassword()">
+                        <i class="fas fa-key"></i> Lupa Password?
+                    </a>
+                </div>
+
+                <!-- Reset Password Form -->
+                <div id="reset-password-section" style="display:none;">
+                    <div class="divider"><span>Reset Password</span></div>
+                    <form id="reset-form" class="login-form">
+                        <div class="form-group">
+                            <label for="reset-email"><i class="fas fa-envelope"></i> Email</label>
+                            <input type="email" id="reset-email" placeholder="Masukkan email Anda" required>
+                        </div>
+                        <button type="submit" class="btn btn-secondary btn-full">
+                            <i class="fas fa-paper-plane"></i> Kirim Link Reset
+                        </button>
+                    </form>
+                    <a href="#" onclick="hideResetPassword()" class="back-link">
+                        <i class="fas fa-arrow-left"></i> Kembali ke Login
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page" style="display:none;">
+            <!-- Top Navigation -->
+            <nav class="top-nav glass-nav">
+                <div class="nav-brand">
+                    <i class="fas fa-receipt"></i>
+                    <span>Print Struk</span>
+                </div>
+                <div class="nav-actions">
+                    <span class="nav-user" id="nav-user-email">
+                        <i class="fas fa-user-shield"></i> Admin
+                    </span>
+                    <button class="btn btn-outline btn-sm" onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Keluar
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div class="dashboard-header">
+                    <h2><i class="fas fa-th-large"></i> Menu Struk</h2>
+                    <p>Pilih jenis struk yang ingin dicetak</p>
+                </div>
+
+                <div class="menu-grid" id="menu-grid">
+                    <!-- Menu cards will be generated by JS -->
+                </div>
+            </div>
+
+            <!-- Settings Button -->
+            <div class="settings-fab" onclick="showSettings()">
+                <i class="fas fa-cog"></i>
+            </div>
+        </div>
+
+        <!-- Receipt Editor Page -->
+        <div id="receipt-page" class="page" style="display:none;">
+            <nav class="top-nav glass-nav">
+                <div class="nav-brand">
+                    <button class="btn-back" onclick="goToDashboard()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <span id="receipt-page-title">Struk</span>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn-success btn-sm" onclick="printReceipt()">
+                        <i class="fas fa-print"></i> Cetak
+                    </button>
+                    <button class="btn btn-primary btn-sm" onclick="saveReceipt()">
+                        <i class="fas fa-save"></i> Simpan
+                    </button>
+                </div>
+            </nav>
+
+            <div class="receipt-editor">
+                <div class="editor-panel">
+                    <div class="editor-header">
+                        <h3><i class="fas fa-edit"></i> Form Input</h3>
+                    </div>
+                    <div class="editor-form glass-card" id="receipt-form">
+                        <!-- Dynamic form fields -->
+                    </div>
+                </div>
+                <div class="preview-panel">
+                    <div class="editor-header">
+                        <h3><i class="fas fa-eye"></i> Preview Struk</h3>
+                    </div>
+                    <div class="receipt-preview-wrapper">
+                        <div class="receipt-paper" id="receipt-preview">
+                            <!-- Receipt preview -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="modal" style="display:none;">
+            <div class="modal-overlay" onclick="hideSettings()"></div>
+            <div class="modal-content glass-card">
+                <div class="modal-header">
+                    <h3><i class="fas fa-cog"></i> Pengaturan</h3>
+                    <button class="modal-close" onclick="hideSettings()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="settings-section">
+                        <h4><i class="fas fa-store"></i> Informasi Toko</h4>
+                        <div class="form-group">
+                            <label>Nama Toko / Kios</label>
+                            <input type="text" id="setting-store-name" placeholder="Nama Toko Anda"
+                                value="KIOS DIGITAL">
+                        </div>
+                        <div class="form-group">
+                            <label>Alamat</label>
+                            <textarea id="setting-store-address" placeholder="Alamat toko"
+                                rows="2">Jl. Contoh No. 123, Kota</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>No. Telepon</label>
+                            <input type="text" id="setting-store-phone" placeholder="08xxxxxxxxxx" value="081234567890">
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h4><i class="fas fa-database"></i> Google Sheets URL</h4>
+                        <div class="form-group">
+                            <label>Apps Script Web App URL</label>
+                            <input type="url" id="setting-sheets-url"
+                                placeholder="https://script.google.com/macros/s/...">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-full" onclick="saveSettings()">
+                        <i class="fas fa-save"></i> Simpan Pengaturan
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <!-- App Scripts -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/receipts.js"></script>
+    <script src="js/sheets.js"></script>
+    <script src="js/print.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
