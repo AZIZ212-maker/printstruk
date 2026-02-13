@@ -1290,3 +1290,42 @@ body {
 .hidden {
     display: none !important;
 }
+
+/* ---- Bluetooth Panel ---- */
+.bt-panel {
+    margin-top: 16px;
+    padding: 20px;
+}
+
+.bt-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.bt-panel-header h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.bt-panel-header h4 i {
+    color: #2196f3;
+    margin-right: 8px;
+}
+
+.bt-status {
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.bt-status.connected {
+    background: rgba(0, 230, 118, 0.12);
+    color: #69f0ae;
+}
+
+.bt-status.disconnected {
+    background: rgba(255, 107, 157, 0.12);
+    color: #ff8a80;
+}
