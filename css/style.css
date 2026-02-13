@@ -1329,3 +1329,46 @@ body {
     background: rgba(255, 107, 157, 0.12);
     color: #ff8a80;
 }
+
+/* Bluetooth Device List */
+.bt-device-list {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.bt-device-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.bt-device-item:hover {
+    background: rgba(108, 99, 255, 0.15);
+    border-color: var(--accent-1);
+    transform: translateX(4px);
+}
+
+.bt-device-item i {
+    font-size: 1.3rem;
+    color: #2196f3;
+    width: 32px;
+    text-align: center;
+}
+
+.bt-device-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.bt-device-addr {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+}

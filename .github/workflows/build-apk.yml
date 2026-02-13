@@ -36,6 +36,11 @@ jobs:
         cd apk-build
         cordova platform add android
 
+    - name: Add Bluetooth Plugin
+      run: |
+        cd apk-build
+        cordova plugin add cordova-plugin-bluetooth-serial
+
     - name: Copy web files to Cordova www
       run: |
         rm -rf apk-build/www/*
@@ -46,8 +51,18 @@ jobs:
     - name: Update Cordova config
       run: |
         cd apk-build
-        # Allow all URLs for Firebase and Google Sheets
+        cat > config_patch.xml << 'XMLEOF'
+        <allow-navigation href="*" />
+        <allow-intent href="*" />
+        <preference name="android-minSdkVersion" value="24" />
+        <preference name="AndroidBluetoothEnabled" value="true" />
+        XMLEOF
         sed -i 's|</widget>|<allow-navigation href="*" /><allow-intent href="*" /><preference name="android-minSdkVersion" value="24" /></widget>|' config.xml
+
+    - name: Add Bluetooth Permission to AndroidManifest
+      run: |
+        MANIFEST="apk-build/platforms/android/app/src/main/AndroidManifest.xml"
+        sed -i 's|</manifest>|<uses-permission android:name="android.permission.BLUETOOTH" />\n<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />\n<uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />\n<uses-permission android:name="android.permission.BLUETOOTH_SCAN" />\n<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\n</manifest>|' $MANIFEST
 
     - name: Build APK
       run: |
